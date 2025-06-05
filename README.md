@@ -2,8 +2,8 @@
 docker image to run retro dos/win programs
 
 The image will find the exe file in the directory and run it.
-If there are more than one program, specify 'RETRO_PROGRAM_NAME' environment variable in the docker run.
-
+If there are more than one program, specify 'RETRO_PROGRAM_NAME' environment variable in the docker run command.
+To customize the resolution, use RETRO_SCREEN_RESOLUTION environment variable, example: `RETRO_SCREEN_RESOLUTION=640x480x16`.
 ## retrobox-win32:latest
 
 - go to folder that contains win32 program, run:
