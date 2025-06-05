@@ -1,4 +1,4 @@
-# docker-repobox
+# docker-retrobox
 docker image to run retro dos/win programs
 
 The image will find the exe file in the directory and run it.

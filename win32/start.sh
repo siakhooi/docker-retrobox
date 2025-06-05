@@ -14,10 +14,8 @@ sudo groupmod -g "$HOST_GID" docker
 sudo chown -R docker:docker "$APP_DIR"
 sudo chown -R docker:docker /home/docker
 
-whoami
-ls -l "$APP_DIR"
-
-Xvfb :1 -screen 0 1024x768x16 &
+RETRO_SCREEN_RESOLUTION="${RETRO_SCREEN_RESOLUTION:-1024x768x16}"
+Xvfb :1 -screen 0 "$RETRO_SCREEN_RESOLUTION" &
 sleep 2
 
 x11vnc -display :1 -nopw -forever -shared -rfbport 5900 &
