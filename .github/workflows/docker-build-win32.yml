@@ -1,0 +1,39 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    paths:
+      - 'win32/Dockerfile'
+      - 'win32/start.sh'
+      - 'win32/docker-build.sh'
+  workflow_dispatch:
+
+
+jobs:
+  build-docker-images:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: cat release.env >> $GITHUB_ENV
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ env.REGISTRY_USERNAME_DOCKER }}
+          password: ${{ secrets.REGISTRY_PASSWORD_DOCKER }}
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ env.REGISTRY_USERNAME_GHCR }}
+          password: ${{ secrets.PUBLISH_TO_GITHUB_REPO_TOKEN }}
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        with:
+          context: ./win32
+          file: Dockerfile
+          push: true
+          tags: |
+            ${{ env.DOCKER_IMAGE_NAME_WIN32 }}:latest
+            ${{ env.DOCKER_IMAGE_NAME_WIN32 }}:${{ env.DOCKER_VERSION_WIN32 }}
+            ${{ env.DOCKER_IMAGE_NAME_WIN32_GHCR }}:latest
+            ${{ env.DOCKER_IMAGE_NAME_WIN32_GHCR }}:${{ env.DOCKER_VERSION_WIN32 }}
