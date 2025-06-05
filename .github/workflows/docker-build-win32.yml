@@ -6,6 +6,7 @@ on:
       - 'win32/Dockerfile'
       - 'win32/start.sh'
       - 'win32/docker-build.sh'
+      - '.github/workflows/docker-build-win32.yml'
   workflow_dispatch:
 
 
@@ -29,7 +30,7 @@ jobs:
       - uses: docker/setup-buildx-action@v3
       - uses: docker/build-push-action@v6
         with:
-          context: ./win32
+          context: "{{defaultContext}}:win32"
           file: Dockerfile
           push: true
           tags: |
